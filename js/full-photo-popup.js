@@ -30,7 +30,7 @@ function closeFullPhoto () {
   deleteComments();
 }
 
-const openFullPhoho = (idPosts) => {
+const openFullPhoto = (idPosts) => {
   const postsData = getGeneratedPosts();
   const {url, description, likes, comments} = postsData[idPosts - 1];
 
@@ -48,4 +48,4 @@ const openFullPhoho = (idPosts) => {
   bigPictureContainerELement.classList.remove('hidden');
 };
 
-export { openFullPhoho };
+export { openFullPhoto };

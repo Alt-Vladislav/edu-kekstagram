@@ -1,5 +1,5 @@
 import { getGeneratedPosts } from './generate-data.js';
-import { openFullPhoho } from './full-photo-popup.js';
+import { openFullPhoto } from './full-photo-popup.js';
 
 const thumbnailTeamplate = document.querySelector('#picture').content.querySelector('.picture');
 const thumbnailsContainerElement = document.querySelector('.pictures');
@@ -8,7 +8,7 @@ const thumbnailsContainerElement = document.querySelector('.pictures');
 const onThumbnailClick = (evt) => {
   if (evt.target.classList.contains('picture__img')) {
     evt.preventDefault();
-    openFullPhoho(+evt.target.dataset.id);
+    openFullPhoto(+evt.target.dataset.id);
   }
 };
 
