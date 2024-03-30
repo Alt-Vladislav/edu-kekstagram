@@ -11,7 +11,11 @@ const descriptionInputElement = popupEditorContainerELement.querySelector('.text
 const onEscKeydown = (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
-    closeUploadForm();
+    if (document.activeElement === hashtagsInputElement || document.activeElement === descriptionInputElement) {
+      evt.stopPropagation();
+    } else {
+      closeUploadForm();
+    }
   }
 };
 const onCancelButtonCleack = () => {
