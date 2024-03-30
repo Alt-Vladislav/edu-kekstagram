@@ -4,6 +4,10 @@ const MAX_LENGTH_HASHTAG = 20;
 const MAX_LENGTH_DESCRIPTION = 140;
 const MAX_NUMBER_HASHTAGS = 5;
 
+let pristine;
+let hashtagsLinkElement;
+let descriptionLinkElement;
+
 let hashtags = [];
 let errorTextHashtegs = 'ошибка валидации хештега';
 const regularExpression = /^#[a-zа-яё0-9]{1,20}$/;
@@ -49,12 +53,17 @@ const initUploadFormValidation = (form, hashtagsInput, descriptionInput) => {
     errorTextTag: 'div',
     errorTextClass: 'img-upload__field-wrapper--error'
   };
-  const pristine = new Pristine(form, prisitineConfig);
+  const pristineInit = new Pristine(form, prisitineConfig);
 
 
-  pristine.addValidator(hashtagsInput, checkHashtagsValidity, getErrorMessage);
-  pristine.addValidator(descriptionInput, checkDescriptionValidity, `не больше ${MAX_LENGTH_DESCRIPTION} символов`);
+  pristineInit.addValidator(hashtagsInput, checkHashtagsValidity, getErrorMessage);
+  pristineInit.addValidator(descriptionInput, checkDescriptionValidity, `не больше ${MAX_LENGTH_DESCRIPTION} символов`);
+  pristine = pristineInit;
+  hashtagsLinkElement = hashtagsInput;
+  descriptionLinkElement = descriptionInput;
 };
 
+const getValidationResult = () => pristine.validate(hashtagsLinkElement) && pristine.validate(descriptionLinkElement);
 
-export { initUploadFormValidation };
+
+export { initUploadFormValidation, getValidationResult };

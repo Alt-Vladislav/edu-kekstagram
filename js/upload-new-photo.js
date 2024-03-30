@@ -1,4 +1,4 @@
-import { initUploadFormValidation } from './upload-new-photo-validation';
+import { initUploadFormValidation, getValidationResult } from './upload-new-photo-validation';
 
 const uploadFormElement = document.querySelector('.img-upload__form');
 const uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
@@ -17,6 +17,14 @@ const onEscKeydown = (evt) => {
 const onCancelButtonCleack = () => {
   closeUploadForm();
 };
+const onFormSubmit = (evt) => {
+  if (getValidationResult()) {
+    hashtagsInputElement.value = hashtagsInputElement.value.trim();
+    descriptionInputElement.value = descriptionInputElement.value.trim();
+  } else {
+    evt.preventDefault();
+  }
+};
 
 
 function closeUploadForm () {
@@ -24,6 +32,7 @@ function closeUploadForm () {
 
   document.removeEventListener('keydown', onEscKeydown);
   cancelButtonElement.removeEventListener('click', onCancelButtonCleack);
+  uploadFormElement.removeEventListener('submit', onFormSubmit);
 
   popupEditorContainerELement.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -33,18 +42,14 @@ function closeUploadForm () {
 const initUploadForm = () => {
   initUploadFormValidation(uploadFormElement, hashtagsInputElement, descriptionInputElement);
 
+
   uploadFileInputElement.addEventListener('change', () => {
     popupEditorContainerELement.classList.remove('hidden');
     document.body.classList.add('modal-open');
 
     document.addEventListener('keydown', onEscKeydown);
     cancelButtonElement.addEventListener('click', onCancelButtonCleack);
-
-    //тут будет добавление события на sumbit. Надо будет сбросить если поле хештегов и поле описания вся из пробелов. использовать метод .trim()
-    // hashtagsInputElement.addEventListener('input', () => {
-    //   var valid = pristine.validate(hashtagsInputElement);
-    //   console.log(valid);
-    // });
+    uploadFormElement.addEventListener('submit', onFormSubmit);
   });
 };
 
