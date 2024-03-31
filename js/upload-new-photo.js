@@ -23,7 +23,7 @@ const onCancelButtonCleack = () => {
 };
 const onFormSubmit = (evt) => {
   if (getValidationResult()) {
-    hashtagsInputElement.value = hashtagsInputElement.value.trim();
+    hashtagsInputElement.value = hashtagsInputElement.value.trim().replaceAll(' ', '');
     descriptionInputElement.value = descriptionInputElement.value.trim();
   } else {
     evt.preventDefault();
