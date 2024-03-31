@@ -40,7 +40,7 @@ const setDefaults = () => {
   currentScale = ZoomLimits.MAX;
   changeZoom(imagePreviewElement, scaleValueInputElement, currentScale);
   setEffect('none');
-  firstRadioBtnElement.checked = true;
+  firstRadioBtnElement.toggleAttribute('checked', true);
 };
 
 
