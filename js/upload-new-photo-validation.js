@@ -3,14 +3,14 @@ import { getHashtags, checkFirstSymbol, checkLength, checkSpacesBetween, checkRe
 const MAX_LENGTH_HASHTAG = 20;
 const MAX_LENGTH_DESCRIPTION = 140;
 const MAX_NUMBER_HASHTAGS = 5;
+const REGULAR_EXPRESSION = /^#[a-zа-яё0-9]{1,20}$/;
 
 let pristine;
 let hashtagsLinkElement;
 let descriptionLinkElement;
-
 let hashtags = [];
 let errorTextHashtegs = 'ошибка валидации хештега';
-const regularExpression = /^#[a-zа-яё0-9]{1,20}$/;
+
 
 const checkHashtagsValidity = (hashtegsString) => {
   hashtags = getHashtags(hashtegsString);
@@ -27,7 +27,7 @@ const checkHashtagsValidity = (hashtegsString) => {
   } else if (hashtags.some((element) => checkLength(element, MAX_LENGTH_HASHTAG))) {
     errorTextHashtegs = `максимальная длина одного хэштега ${MAX_LENGTH_HASHTAG} символов`;
     return false;
-  } else if (hashtags.some((element) => !regularExpression.test(element.trimEnd()))) {
+  } else if (hashtags.some((element) => !REGULAR_EXPRESSION.test(element.trimEnd()))) {
     errorTextHashtegs = 'хештег содержит недопустимые символы';
     return false;
   } else if (checkRepeat(hashtags)) {
