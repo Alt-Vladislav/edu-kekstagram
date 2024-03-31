@@ -1,7 +1,3 @@
-const checkLength = (inputString, needLength) => (inputString.length <= needLength);
-checkLength('проверяемая строка', 18);
-
-
 const isPalindrome = (inputString) => {
   const normalizedString = inputString.replaceAll(' ', '').toLowerCase();
   let reverseString = '';
