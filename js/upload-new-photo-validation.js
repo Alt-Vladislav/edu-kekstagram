@@ -65,5 +65,6 @@ const initUploadFormValidation = (form, hashtagsInput, descriptionInput) => {
 
 const getValidationResult = () => pristine.validate(hashtagsLinkElement) && pristine.validate(descriptionLinkElement);
 
+const resetValidation = () => pristine.reset();
 
-export { initUploadFormValidation, getValidationResult };
+export { initUploadFormValidation, getValidationResult, resetValidation };

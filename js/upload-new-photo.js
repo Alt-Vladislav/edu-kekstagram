@@ -1,4 +1,4 @@
-import { initUploadFormValidation, getValidationResult } from './upload-new-photo-validation';
+import { initUploadFormValidation, getValidationResult, resetValidation } from './upload-new-photo-validation';
 import { initUploadFormEditor, activateEditor, deactivateEditor } from './upload-new-photo-editor';
 
 const uploadFormElement = document.querySelector('.img-upload__form');
@@ -34,6 +34,7 @@ const onFormSubmit = (evt) => {
 
 function closeUploadForm () {
   uploadFileInputElement.value = '';
+  uploadFormElement.reset();
 
   document.removeEventListener('keydown', onEscKeydown);
   cancelButtonElement.removeEventListener('click', onCancelButtonClick);
@@ -42,6 +43,7 @@ function closeUploadForm () {
   popupEditorContainerELement.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
+  resetValidation();
   deactivateEditor();
 }
 
