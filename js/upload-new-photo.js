@@ -1,4 +1,5 @@
-import { initUploadFormValidation, getValidationResult } from './upload-new-photo-validation';
+import { initUploadFormValidation, getValidationResult, resetValidation } from './upload-new-photo-validation';
+import { initUploadFormEditor, activateEditor, deactivateEditor } from './upload-new-photo-editor';
 
 const uploadFormElement = document.querySelector('.img-upload__form');
 const uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
@@ -18,12 +19,12 @@ const onEscKeydown = (evt) => {
     }
   }
 };
-const onCancelButtonCleack = () => {
+const onCancelButtonClick = () => {
   closeUploadForm();
 };
 const onFormSubmit = (evt) => {
   if (getValidationResult()) {
-    hashtagsInputElement.value = hashtagsInputElement.value.trim().replaceAll(' ', '');
+    hashtagsInputElement.value = hashtagsInputElement.value.trim().replaceAll(/\s+/g, ' ');
     descriptionInputElement.value = descriptionInputElement.value.trim();
   } else {
     evt.preventDefault();
@@ -33,26 +34,31 @@ const onFormSubmit = (evt) => {
 
 function closeUploadForm () {
   uploadFileInputElement.value = '';
+  uploadFormElement.reset();
 
   document.removeEventListener('keydown', onEscKeydown);
-  cancelButtonElement.removeEventListener('click', onCancelButtonCleack);
+  cancelButtonElement.removeEventListener('click', onCancelButtonClick);
   uploadFormElement.removeEventListener('submit', onFormSubmit);
 
   popupEditorContainerELement.classList.add('hidden');
   document.body.classList.remove('modal-open');
+
+  resetValidation();
+  deactivateEditor();
 }
 
 
 const initUploadForm = () => {
   initUploadFormValidation(uploadFormElement, hashtagsInputElement, descriptionInputElement);
-
+  initUploadFormEditor(uploadFormElement);
 
   uploadFileInputElement.addEventListener('change', () => {
+    activateEditor();
     popupEditorContainerELement.classList.remove('hidden');
     document.body.classList.add('modal-open');
 
     document.addEventListener('keydown', onEscKeydown);
-    cancelButtonElement.addEventListener('click', onCancelButtonCleack);
+    cancelButtonElement.addEventListener('click', onCancelButtonClick);
     uploadFormElement.addEventListener('submit', onFormSubmit);
   });
 };
