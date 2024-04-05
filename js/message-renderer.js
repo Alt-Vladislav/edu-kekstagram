@@ -14,29 +14,7 @@ const showAlerServer = (errorText) => {
 };
 
 
-const showSendingResultMessage= (isSuccess, callback) => {
-  const onOutsideClick = (evt) => {
-    if (evt.target === messageElement) {
-      closeMessage()
-    }
-  };
-
-  const onEscKeydown = (evt) => {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      closeMessage();
-      evt.stopPropagation();
-    }
-  };
-
-  const closeMessage = () => {
-    closeButtonElement.removeEventListener('click', closeMessage);
-    messageElement.removeEventListener('click', onOutsideClick);
-    document.body.removeEventListener('keydown', onEscKeydown);
-    messageElement.remove();
-  }
-
-
+const showSendingResultMessage = (isSuccess, callback) => {
   let messageElement;
   let closeButtonElement;
   if (isSuccess) {
@@ -54,6 +32,28 @@ const showSendingResultMessage= (isSuccess, callback) => {
   messageElement.addEventListener('click', onOutsideClick);
   document.body.addEventListener('keydown', onEscKeydown);
   document.body.append(messageElement);
+
+
+  function closeMessage () {
+    closeButtonElement.removeEventListener('click', closeMessage);
+    messageElement.removeEventListener('click', onOutsideClick);
+    document.body.removeEventListener('keydown', onEscKeydown);
+    messageElement.remove();
+  }
+
+  function onOutsideClick (evt) {
+    if (evt.target === messageElement) {
+      closeMessage();
+    }
+  }
+
+  function onEscKeydown (evt) {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      closeMessage();
+      evt.stopPropagation();
+    }
+  }
 };
 
 
