@@ -1,11 +1,11 @@
 const URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 const Cfg = {
-  GET: {
+  GET_DATA: {
     ROUTE: '/data',
     METHOD: 'GET',
     ERROR: 'Не удалось загрузить данные. Попробуйте обновить страницу'
   },
-  POST: {
+  POST_DATA: {
     ROUTE: '/',
     METHOD: 'POST',
     ERROR: 'Не удалось отправить форму. Попробуйте ещё раз'
@@ -26,7 +26,7 @@ const load = (method, body = null) =>
     });
 
 
-const getData = () => load(Cfg.GET);
-const sendData = (body) => load(Cfg.POST, body);
+const getData = () => load(Cfg.GET_DATA);
+const sendData = (body) => load(Cfg.POST_DATA, body);
 
 export {getData, sendData};
