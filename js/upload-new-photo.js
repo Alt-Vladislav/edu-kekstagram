@@ -1,10 +1,18 @@
 import { initUploadFormValidation, getValidationResult, resetValidation } from './upload-new-photo-validation';
 import { initUploadFormEditor, activateEditor, deactivateEditor } from './upload-new-photo-editor';
+import { showSendingResultMessage } from './message-renderer.js';
+import { sendData } from './api';
+
+const ButtonText = {
+  DEFAULT: 'Опубликовать',
+  SENDING: 'Опубликовываю'
+};
 
 const uploadFormElement = document.querySelector('.img-upload__form');
 const uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
 const popupEditorContainerELement = uploadFormElement.querySelector('.img-upload__overlay');
 const cancelButtonElement = popupEditorContainerELement.querySelector('#upload-cancel');
+const submitButtonElement = popupEditorContainerELement.querySelector('#upload-submit');
 const hashtagsInputElement = popupEditorContainerELement.querySelector('.text__hashtags');
 const descriptionInputElement = popupEditorContainerELement.querySelector('.text__description');
 
@@ -19,15 +27,27 @@ const onEscKeydown = (evt) => {
     }
   }
 };
+
 const onCancelButtonClick = () => {
   closeUploadForm();
 };
+
 const onFormSubmit = (evt) => {
+  evt.preventDefault();
+
   if (getValidationResult()) {
+    submitButtonElement.toggleAttribute('disabled', true);
+    submitButtonElement.textContent = ButtonText.SENDING;
     hashtagsInputElement.value = hashtagsInputElement.value.trim().replaceAll(/\s+/g, ' ');
     descriptionInputElement.value = descriptionInputElement.value.trim();
-  } else {
-    evt.preventDefault();
+
+    sendData(new FormData(evt.target))
+      .then(() => showSendingResultMessage(true, closeUploadForm))
+      .catch(() => showSendingResultMessage(false))
+      .finally(() => {
+        submitButtonElement.toggleAttribute('disabled', false);
+        submitButtonElement.textContent = ButtonText.DEFAULT;
+      });
   }
 };
 

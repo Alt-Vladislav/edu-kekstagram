@@ -1,9 +1,14 @@
-import { generatePosts } from './generate-data.js';
 import { renderThumbnails } from './thumbnails-renderer.js';
 import { initUploadForm } from './upload-new-photo.js';
+import { getData } from './api.js';
+import { showAlerServer } from './message-renderer.js';
 
-const POSTS_NUMBER = 25;
-generatePosts(POSTS_NUMBER);
+getData()
+  .then((dataFromServer) => {
+    renderThumbnails(dataFromServer);
+  })
+  .catch((err) => {
+    showAlerServer(err.message);
+  });
 
-renderThumbnails();
 initUploadForm();

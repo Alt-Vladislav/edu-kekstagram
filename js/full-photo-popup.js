@@ -1,4 +1,3 @@
-import { getGeneratedPosts } from './generate-data.js';
 import { addCommets, deleteComments } from './full-photo-comments.js';
 
 const bigPictureContainerELement = document.querySelector('.big-picture');
@@ -30,9 +29,8 @@ function closeFullPhoto () {
   deleteComments();
 }
 
-const openFullPhoto = (idPosts) => {
-  const postsData = getGeneratedPosts();
-  const {url, description, likes, comments} = postsData[idPosts - 1];
+const openFullPhoto = (idPosts, postsData) => {
+  const {url, likes, comments, description} = postsData[idPosts];
 
   imageElement.src = url;
   imageElement.alt = description;
