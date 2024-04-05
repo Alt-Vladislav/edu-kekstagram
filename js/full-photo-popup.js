@@ -5,7 +5,11 @@ const imageElement = bigPictureContainerELement.querySelector('.big-picture__img
 const closeButtonElement = bigPictureContainerELement.querySelector('.big-picture__cancel');
 const descriptionImageElement = bigPictureContainerELement.querySelector('.social__caption');
 const likesCountElement = bigPictureContainerELement.querySelector('.likes-count');
+let postsData = [];
 
+const initOpenFullPhoto = (dataFromServer) => {
+  postsData = dataFromServer;
+};
 
 const onEscKeydown = (evt) => {
   if (evt.key === 'Escape') {
@@ -13,6 +17,7 @@ const onEscKeydown = (evt) => {
     closeFullPhoto();
   }
 };
+
 const onCloseButtonCleack = (evt) => {
   evt.preventDefault();
   closeFullPhoto();
@@ -29,7 +34,8 @@ function closeFullPhoto () {
   deleteComments();
 }
 
-const openFullPhoto = (idPosts, postsData) => {
+
+const openFullPhoto = (idPosts) => {
   const {url, likes, comments, description} = postsData[idPosts];
 
   imageElement.src = url;
@@ -46,4 +52,5 @@ const openFullPhoto = (idPosts, postsData) => {
   bigPictureContainerELement.classList.remove('hidden');
 };
 
-export { openFullPhoto };
+
+export { openFullPhoto, initOpenFullPhoto };

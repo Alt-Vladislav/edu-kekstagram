@@ -2,20 +2,16 @@ import { openFullPhoto } from './full-photo-popup.js';
 
 const thumbnailTeamplate = document.querySelector('#picture').content.querySelector('.picture');
 const thumbnailsContainerElement = document.querySelector('.pictures');
-let postsData = '';
+
 
 const onThumbnailClick = (evt) => {
   if (evt.target.classList.contains('picture__img')) {
     evt.preventDefault();
-
-    if (postsData !== '') {
-      openFullPhoto(+evt.target.dataset.id, postsData);
-    }
+    openFullPhoto(+evt.target.dataset.id);
   }
 };
 
-const renderThumbnails = (dataFromServer) => {
-  postsData = dataFromServer;
+const renderThumbnails = (postsData) => {
   const thumbnailsFragment = document.createDocumentFragment();
 
   postsData.forEach(({id, url, likes, comments, description}) => {
@@ -31,8 +27,11 @@ const renderThumbnails = (dataFromServer) => {
     thumbnailsFragment.append(thumbnail);
   });
 
+  thumbnailsContainerElement.querySelectorAll('.picture')
+    .forEach((thumbnail) => thumbnail.remove());
   thumbnailsContainerElement.append(thumbnailsFragment);
   thumbnailsContainerElement.addEventListener('click', onThumbnailClick);
 };
+
 
 export { renderThumbnails };
