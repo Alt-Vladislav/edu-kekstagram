@@ -5,7 +5,7 @@ const errorSendImageTeamplate = document.querySelector('#error').content.querySe
 const successSendImageTeamplate = document.querySelector('#success').content.querySelector('.success');
 
 
-const showAlerServer = (errorText) => {
+const showAlert = (errorText) => {
   const errorMessageElement = errorServerTeamplate.cloneNode(true);
   errorMessageElement.children[0].textContent = errorText;
 
@@ -57,4 +57,4 @@ const showSendingResultMessage = (isSuccess, callback) => {
 };
 
 
-export{ showAlerServer, showSendingResultMessage };
+export{ showAlert, showSendingResultMessage };

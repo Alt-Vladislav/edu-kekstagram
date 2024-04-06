@@ -1,5 +1,5 @@
 import { initUploadFormValidation, getValidationResult, resetValidation } from './upload-new-photo-validation';
-import { initUploadFormEditor, activateEditor, deactivateEditor } from './upload-new-photo-editor';
+import { initUploadFormEditor, changeImagePreview, activateEditor, deactivateEditor } from './upload-new-photo-editor';
 import { showSendingResultMessage } from './message-renderer.js';
 import { sendData } from './api';
 
@@ -73,6 +73,7 @@ const initUploadForm = () => {
   initUploadFormEditor(uploadFormElement);
 
   uploadFileInputElement.addEventListener('change', () => {
+    changeImagePreview(uploadFileInputElement);
     activateEditor();
     popupEditorContainerELement.classList.remove('hidden');
     document.body.classList.add('modal-open');

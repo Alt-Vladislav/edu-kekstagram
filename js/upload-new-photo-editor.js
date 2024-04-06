@@ -1,5 +1,7 @@
 import { changeZoom, initEffect, setEffect, updateEffectIntensity } from './functions-editor';
+import { showAlert } from './message-renderer.js';
 
+const FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const ZoomLimits = {
   MIN: 25,
   MAX: 100,
@@ -66,6 +68,15 @@ const initUploadFormEditor = (form) => {
   sliderContainerElement.noUiSlider.on('update', updateEffectIntensity);
 };
 
+const changeImagePreview = (inputFileElement) => {
+  const file = inputFileElement.files[0];
+  if (FILE_TYPES.includes(file.type)) {
+    imagePreviewElement.src = URL.createObjectURL(file);
+  } else {
+    showAlert('Можно загружать только изображение');
+  }
+};
+
 const activateEditor = () => {
   setDefaults();
   buttonBiggerElement.addEventListener('click', onButtonBiggerClick);
@@ -81,4 +92,4 @@ const deactivateEditor = () => {
 };
 
 
-export { initUploadFormEditor, activateEditor, deactivateEditor };
+export { initUploadFormEditor, changeImagePreview, activateEditor, deactivateEditor };
