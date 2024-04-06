@@ -16,6 +16,7 @@ let sliderWrapperElement;
 let sliderContainerElement;
 let effectLevelInputElement;
 let effectsContainerElement;
+let effectsPreviewElements;
 let firstRadioBtnElement;
 let currentScale = ZoomLimits.MAX;
 
@@ -55,6 +56,7 @@ const initUploadFormEditor = (form) => {
   sliderContainerElement = sliderWrapperElement.querySelector('.effect-level__slider');
   effectLevelInputElement = sliderWrapperElement.querySelector('.effect-level__value');
   effectsContainerElement = form.querySelector('.effects__list');
+  effectsPreviewElements = effectsContainerElement.querySelectorAll('.effects__preview');
   firstRadioBtnElement = effectsContainerElement.querySelector('input[value="none"]');
 
   initEffect(imagePreviewElement, sliderWrapperElement, sliderContainerElement, effectLevelInputElement);
@@ -70,8 +72,13 @@ const initUploadFormEditor = (form) => {
 
 const changeImagePreview = (inputFileElement) => {
   const file = inputFileElement.files[0];
+  const linkOnFile = URL.createObjectURL(file);
+
   if (FILE_TYPES.includes(file.type)) {
-    imagePreviewElement.src = URL.createObjectURL(file);
+    imagePreviewElement.src = linkOnFile;
+    effectsPreviewElements.forEach((previewImage) => {
+      previewImage.style.setProperty('background-image', `url(${linkOnFile})`);
+    });
   } else {
     showAlert('Можно загружать только изображение');
   }
