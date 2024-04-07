@@ -1,5 +1,7 @@
 import { changeZoom, initEffect, setEffect, updateEffectIntensity } from './functions-editor';
+import { showAlert } from './message-renderer.js';
 
+const FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const ZoomLimits = {
   MIN: 25,
   MAX: 100,
@@ -14,6 +16,7 @@ let sliderWrapperElement;
 let sliderContainerElement;
 let effectLevelInputElement;
 let effectsContainerElement;
+let effectsPreviewElements;
 let firstRadioBtnElement;
 let currentScale = ZoomLimits.MAX;
 
@@ -53,6 +56,7 @@ const initUploadFormEditor = (form) => {
   sliderContainerElement = sliderWrapperElement.querySelector('.effect-level__slider');
   effectLevelInputElement = sliderWrapperElement.querySelector('.effect-level__value');
   effectsContainerElement = form.querySelector('.effects__list');
+  effectsPreviewElements = effectsContainerElement.querySelectorAll('.effects__preview');
   firstRadioBtnElement = effectsContainerElement.querySelector('input[value="none"]');
 
   initEffect(imagePreviewElement, sliderWrapperElement, sliderContainerElement, effectLevelInputElement);
@@ -61,9 +65,27 @@ const initUploadFormEditor = (form) => {
     range: { min: 0, max: 1 },
     start: 1,
     step: 0.1,
-    connect: 'lower'
+    connect: 'lower',
+    format: {
+      to: (value) => +value,
+      from: (value) => +value,
+    }
   });
   sliderContainerElement.noUiSlider.on('update', updateEffectIntensity);
+};
+
+const changeImagePreview = (inputFileElement) => {
+  const file = inputFileElement.files[0];
+  const linkOnFile = URL.createObjectURL(file);
+
+  if (FILE_TYPES.includes(file.type)) {
+    imagePreviewElement.src = linkOnFile;
+    effectsPreviewElements.forEach((previewImage) => {
+      previewImage.style.setProperty('background-image', `url(${linkOnFile})`);
+    });
+  } else {
+    showAlert('Можно загружать только изображение');
+  }
 };
 
 const activateEditor = () => {
@@ -81,4 +103,4 @@ const deactivateEditor = () => {
 };
 
 
-export { initUploadFormEditor, activateEditor, deactivateEditor };
+export { initUploadFormEditor, changeImagePreview, activateEditor, deactivateEditor };

@@ -3,7 +3,7 @@ import { initUploadForm } from './upload-new-photo.js';
 import { initOpenFullPhoto } from './full-photo-popup.js';
 import { initThumbnailsFilter } from './thumbnails-filter.js';
 import { getData } from './api.js';
-import { showAlerServer } from './message-renderer.js';
+import { showAlert } from './message-renderer.js';
 
 
 getData()
@@ -13,7 +13,7 @@ getData()
     initOpenFullPhoto(dataFromServer);
   })
   .catch((err) => {
-    showAlerServer(err.message);
+    showAlert(err.message);
   });
 
 initUploadForm();
